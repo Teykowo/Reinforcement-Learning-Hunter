@@ -4,17 +4,16 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Probe
-  - Target
   - Walls
+  - Target
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Walls
   - Water
   - UI
-  - 
+  - Targets
   - 
   - 
   - 

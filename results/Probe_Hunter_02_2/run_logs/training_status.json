@@ -1,0 +1,65 @@
+{
+    "Probe": {
+        "checkpoints": [
+            {
+                "steps": 499983,
+                "file_path": "results\\Probe_Hunter_02_2\\Probe\\Probe-499983.onnx",
+                "reward": 0.9274752044251987,
+                "creation_time": 1658567029.1742084,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02_2\\Probe\\Probe-499983.pt"
+                ]
+            },
+            {
+                "steps": 999880,
+                "file_path": "results\\Probe_Hunter_02_2\\Probe\\Probe-999880.onnx",
+                "reward": 0.9870780860073864,
+                "creation_time": 1658568370.1205435,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02_2\\Probe\\Probe-999880.pt"
+                ]
+            },
+            {
+                "steps": 1499978,
+                "file_path": "results\\Probe_Hunter_02_2\\Probe\\Probe-1499978.onnx",
+                "reward": 3.754542261362076,
+                "creation_time": 1658569726.3944643,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02_2\\Probe\\Probe-1499978.pt"
+                ]
+            },
+            {
+                "steps": 1999997,
+                "file_path": "results\\Probe_Hunter_02_2\\Probe\\Probe-1999997.onnx",
+                "reward": 2.5109050199389458,
+                "creation_time": 1658571054.4367292,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02_2\\Probe\\Probe-1999997.pt"
+                ]
+            },
+            {
+                "steps": 2000170,
+                "file_path": "results\\Probe_Hunter_02_2\\Probe\\Probe-2000170.onnx",
+                "reward": 2.6091903038322926,
+                "creation_time": 1658571054.6236222,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02_2\\Probe\\Probe-2000170.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2000170,
+            "file_path": "results\\Probe_Hunter_02_2\\Probe.onnx",
+            "reward": 2.6091903038322926,
+            "creation_time": 1658571054.6236222,
+            "auxillary_file_paths": [
+                "results\\Probe_Hunter_02_2\\Probe\\Probe-2000170.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}
