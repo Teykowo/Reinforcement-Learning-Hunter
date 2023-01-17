@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 781ec5c0816e433409c53ab07fa5c265
+  m_SerializeEntries:
+  - m_GUID: bd2da2ffdcf07c649a78b5bb2811c080
+    m_Address: Assets/ArenaTilesModels/Prefabs/ReefTile_Barren.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b283ac38fd9ec9e439d2ce60a81daa39
+    m_Address: Assets/ArenaTilesModels/Prefabs/ReefTile_Canyon1_Fused.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ff9e3def84e3f47458f79b167ef99093
+    m_Address: Assets/ArenaTilesModels/Prefabs/ReefTile_Mound_Fused.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: f2b44f3129df28f4985d148e4003ceba
+    m_Address: Assets/ArenaTilesModels/Prefabs/ReefTile_Rock1_Fused.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 9a1af651ea048f342a8303ef5ce2f1dd
+    m_Address: Assets/ArenaTilesModels/Prefabs/ReefTile_Rock2_Fused.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6098ceb5d7054344baf81be620e8c55c
+    m_Address: Assets/ArenaTilesModels/Prefabs/ReefTile_Tunnel1_Fused.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 5d297997a04630348aaa38f0e2ed0ed9, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 0385e4ce815e9a4418b5755889ddd1b7, type: 2}
+    - {fileID: 11400000, guid: 38cf472dca4f7a84592ff51dfdb6899a, type: 2}
