@@ -1,0 +1,65 @@
+{
+    "Probe": {
+        "checkpoints": [
+            {
+                "steps": 999974,
+                "file_path": "results\\Probe_Hunter_02\\Probe\\Probe-999974.onnx",
+                "reward": -2.001999855041504,
+                "creation_time": 1658511150.2277825,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02\\Probe\\Probe-999974.pt"
+                ]
+            },
+            {
+                "steps": 1499920,
+                "file_path": "results\\Probe_Hunter_02\\Probe\\Probe-1499920.onnx",
+                "reward": 1.953261013912118,
+                "creation_time": 1658512530.2335112,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02\\Probe\\Probe-1499920.pt"
+                ]
+            },
+            {
+                "steps": 1712158,
+                "file_path": "results\\Probe_Hunter_02\\Probe\\Probe-1712158.onnx",
+                "reward": 1.8223400935530663,
+                "creation_time": 1658513111.5121343,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02\\Probe\\Probe-1712158.pt"
+                ]
+            },
+            {
+                "steps": 1999999,
+                "file_path": "results\\Probe_Hunter_02\\Probe\\Probe-1999999.onnx",
+                "reward": 3.666066679689619,
+                "creation_time": 1658513932.526755,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02\\Probe\\Probe-1999999.pt"
+                ]
+            },
+            {
+                "steps": 2000052,
+                "file_path": "results\\Probe_Hunter_02\\Probe\\Probe-2000052.onnx",
+                "reward": 3.6808631608360693,
+                "creation_time": 1658513932.6970322,
+                "auxillary_file_paths": [
+                    "results\\Probe_Hunter_02\\Probe\\Probe-2000052.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2000052,
+            "file_path": "results\\Probe_Hunter_02\\Probe.onnx",
+            "reward": 3.6808631608360693,
+            "creation_time": 1658513932.6970322,
+            "auxillary_file_paths": [
+                "results\\Probe_Hunter_02\\Probe\\Probe-2000052.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}
