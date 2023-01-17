@@ -1,0 +1,29 @@
+{
+    "closeGapTarget": {
+        "checkpoints": [
+            {
+                "steps": 178013,
+                "file_path": "results\\ppo\\closeGapTarget\\closeGapTarget-178013.onnx",
+                "reward": -0.0011268830894550774,
+                "creation_time": 1656618750.4696813,
+                "auxillary_file_paths": [
+                    "results\\ppo\\closeGapTarget\\closeGapTarget-178013.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 178013,
+            "file_path": "results\\ppo\\closeGapTarget.onnx",
+            "reward": -0.0011268830894550774,
+            "creation_time": 1656618750.4696813,
+            "auxillary_file_paths": [
+                "results\\ppo\\closeGapTarget\\closeGapTarget-178013.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}
