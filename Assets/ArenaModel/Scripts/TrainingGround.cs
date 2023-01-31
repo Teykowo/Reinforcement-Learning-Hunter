@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
 using TMPro;
+using System.Linq;
 // -------------------------------------------------------------------------------------------
 
 // --------------------------------------- Arena Class ---------------------------------------
@@ -24,6 +25,17 @@ public class TrainingGround : MonoBehaviour
     [Tooltip("The list of Target objects.")]
     public List<GameObject> targetList;
 
+
+    [Tooltip("The list of possible chunk models.")]
+    public List<GameObject> chunkModels; // Library of each hexagonal chunk model prefabs.
+
+    [Tooltip("Prefab of the arena's walls.")]
+    public GameObject wallPrefab;
+
+    [Tooltip("Number of circonvolutions for the map generation.")]
+    public int CirconvolutionsCount = 3; // The depth defines how many layers we want to process, not counting the center, meaning a depth of one is 7 chunks, of two is 19 etc...
+
+
     [Tooltip("Text mesh that'll display the cumulative reward in a clean, in-environment way.")]
     public TextMeshPro cumulativeRewardText;
 
@@ -35,13 +47,114 @@ public class TrainingGround : MonoBehaviour
     private float arenaWidthHalf; // Offset around the center of the sea object to it's borders.
     private Vector3 arenaCenter; // Position of the center of the sea object.
 
+    public void GenerateMap()
+    {
+        int mapMatrixWidth = 11; // Width of the matrix representing the map.
+        int mapMatrixHeight = 11; // Height of the same matrix.
+        int[,] mapMatrix = new int[mapMatrixWidth, mapMatrixHeight]; // Init a 0 matrix 0's represent the lack of chunk at these coordinates and 1's represent the presence of one.
+
+        // Store the coordinates for the center of the map matrix.
+        int startX = mapMatrixWidth / 2;
+        int startY = mapMatrixHeight / 2;
+        mapMatrix[startX, startY] = 1; // Initialize the center of the matrix as already being generated since we always have a starting chunk.
+
+        // Init those lists with the data relative to the initial chunk.
+        List<int[]> chunksNewBasisCoordinates = new List<int[]> { new int[] { startX, startY } }; // This list of arrays will hold the coordinates of chunks using new basis vectors so as to be useable as indices in the mapMatrix.
+        List<float[]> chunksUnityCoordinates = new List<float[]> { new float[] { 0, 0 } }; // This list of arrays will hold the coordinates of chunks in unity.
+
+        // Create a list of vectors that when added to another, point to its neighbours.
+        int[,] neighbourAccessVectors = { { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, 0 }, { -1, 1 }, { 0, 1 } };
+
+        // Store the offset from which we'll iterate over the created chunks to generate more.
+        int processingOffset = 0;
+        int layersLen = 0; // Intermediate value for the storing the offset.
+        var random = new System.Random(); // init a random generator to choose from the list of chunk models.
+
+        int[] chunkBasisCoordinates; // Init empty array to store the chunk's new basis coordinates and then append to the vector of chunk coordinates.
+        float[] newChunkUnityC; // Init empty array to store chunks unity coordinates.
+
+        // For each of the desired layers:
+        for (int layer = 0; layer <= CirconvolutionsCount; layer++)
+        {
+            // store the number of chunks at the currently already generated layers.
+            layersLen = chunksNewBasisCoordinates.Count;
+
+            // For each chunk in the previous layer:
+            for (int chunkIndex = processingOffset; chunkIndex < layersLen; chunkIndex++)
+            {
+                // Iterate over the neighbour access vector:
+                for (int neighbourVectorIndex = 0; neighbourVectorIndex < neighbourAccessVectors.GetLength(0); neighbourVectorIndex++)
+                {
+                int[] chunk = chunksNewBasisCoordinates[chunkIndex];
+                    // And generate the new chunk's basis coordinates.
+                    int newChunkBasisX = chunk[0] + neighbourAccessVectors[neighbourVectorIndex, 0];
+                    int newChunkBasisY = chunk[1] + neighbourAccessVectors[neighbourVectorIndex, 1];
+
+
+                    // Check if a chunk wasn't already generated there.
+                    if (mapMatrix[newChunkBasisX, newChunkBasisY] == 0)
+                    {
+                        //  Generate the unity coordinate. We substract the starting coordinates from the matrix since it's centered in a grid, we need to start at 0 in unity.
+                        newChunkUnityC = offsetX(newChunkBasisX - startX, newChunkBasisY - startY);
+
+                        if (layer >= CirconvolutionsCount)
+                        {
+                            // The orientation of the walls depends on the neighbour they are trying to acces, we will use the neighbour index to rotate the wall object such that 0:-90, 1:-30, 2:30, 3:90, 4:150, 5:210
+                            Quaternion wallRotation = Quaternion.Euler(0, -90 + neighbourVectorIndex * 60, 90);
+                            GameObject mapWallGameObject = Instantiate<GameObject>(wallPrefab.gameObject, new Vector3(newChunkUnityC[0], 0, newChunkUnityC[1]), wallRotation);
+
+                            // Post instantiation, move the wall toward the chunk's edge to close the map. Thanks to our rotation method all walls face the center of their chunks so we just move them formward relative to themselves.
+                            mapWallGameObject.transform.position = mapWallGameObject.transform.position + 8.66f * mapWallGameObject.transform.forward;
+                        }
+                        else
+                        {
+                            // If not, then we can append the chunk to the list of chunk and update the board.
+                            chunkBasisCoordinates = new int[] { newChunkBasisX, newChunkBasisY };
+                            chunksNewBasisCoordinates.Add(chunkBasisCoordinates);
+
+                            // We can also append the unity coordinates to the related list.
+                            chunksUnityCoordinates.Add(newChunkUnityC);
+                            // Instantiate a copy of the chunk prefab object after randomly picking and index for the list of possible models.
+                            int index = random.Next(chunkModels.Count);
+                            // To have less of a repetition in the map we rotate the randomly chunk.
+                            int chunkRotation = random.Next(6);
+
+                            GameObject chunkGameObject = Instantiate<GameObject>(chunkModels[index].gameObject, new Vector3(newChunkUnityC[0], 0, newChunkUnityC[1]), Quaternion.Euler(0, chunkRotation * 60, 0));
+                            // Update the value in the mapMatrix to keep track of chunks.
+                            mapMatrix[newChunkBasisX, newChunkBasisY] = 1;
+                        }
+                    }
+                }
+            }
+            // Update the processingOffset with the layersLength from before the creation of the new chunks.
+            processingOffset = layersLen;
+        }
+    }
+
+    // Define a function that takes the unit-length-basis-coordinates of a chunk and generates the x and y offsets needed to place the chunk using the original unity basis.
+    // each chunk is a hexagone of length vertex to vertex equal to 20, and side to side 17.32.
+    private float[] offsetX(int xNewBasis, int yNewBasis)
+    {
+        // Each chunk is moved 17.32 x from the center of the previous one, hence we multiply this number by the coordinates to get the displacement from 0.
+        float xOffset = (float) 17.32 * xNewBasis;
+        // We do the same for the y direction with 15.
+        float yOffset = (float) 15 * yNewBasis;
+
+        // multiply the offset between lines by the y value to get the offset of this line.
+        xOffset += (float) 8.66 * yNewBasis;
+
+        float[] UnityCoordinates = { xOffset, yOffset };
+        return UnityCoordinates;
+    }
+
     /* Override the function Initialize, which runs during object construction, to access data only available after game objects are built (i could append to the constructor). */
     /* If changed to MonoBehaviour inheritence, just create the function instead of overriding and call it in start() */
     public void Initialize()
     {
-        // Get the sea gameObject. Since we need to use it twice, we also get the sea object's direct parent.
-        Transform seaParent = transform.GetChild(0).GetChild(0).GetChild(0).gameObject.transform;
-        Transform sea = seaParent.GetChild(seaParent.childCount-1).transform;
+        GenerateMap();
+
+        // Get the sea gameObject.
+        Transform sea = transform.GetChild(1).gameObject.transform;
         // Get the "sea" object's height and width, this then, defines the arena size, without the sand layer.
         arenaHeight = sea.lossyScale.y * 2f; // Up from the center is the actual returned height.
         arenaHeightHalf = sea.lossyScale.y;
