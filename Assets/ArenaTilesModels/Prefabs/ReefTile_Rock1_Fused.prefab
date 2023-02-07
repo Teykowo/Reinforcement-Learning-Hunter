@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2231164059459847384}
   - component: {fileID: 5084306554290649527}
   - component: {fileID: 3300640981259101795}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Rock
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -421,9 +421,9 @@ GameObject:
   - component: {fileID: 5124241698122826379}
   - component: {fileID: 8681767944480448237}
   - component: {fileID: 8888673138303066262}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SurfaceWall
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 8080421466871758482}
   - component: {fileID: 6325195496944306776}
   - component: {fileID: 5946523268287450318}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ReefTile_SideWall
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

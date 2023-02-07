@@ -43,7 +43,6 @@ public class TrainingGround : MonoBehaviour
     private float totalHeight; // Used for checking if the spawned object is clipping underground.
     private float arenaHeight; // Height of the sea object.
     private float arenaHeightHalf; // Offset up and down from the center of the sea object.
-    private float arenaWidth; // Width of the sea object.
     private float arenaWidthHalf; // Offset around the center of the sea object to it's borders.
     private Vector3 arenaCenter; // Position of the center of the sea object.
 
@@ -103,6 +102,9 @@ public class TrainingGround : MonoBehaviour
                             Quaternion wallRotation = Quaternion.Euler(0, -90 + neighbourVectorIndex * 60, 90);
                             GameObject mapWallGameObject = Instantiate<GameObject>(wallPrefab.gameObject, new Vector3(newChunkUnityC[0], 0, newChunkUnityC[1]), wallRotation);
 
+                            // Assign the object to the correct parent. (TrainingGround -> Map -> Walls)
+                            mapWallGameObject.transform.SetParent(transform.GetChild(2).GetChild(1).gameObject.transform, false);
+
                             // Post instantiation, move the wall toward the chunk's edge to close the map. Thanks to our rotation method all walls face the center of their chunks so we just move them formward relative to themselves.
                             mapWallGameObject.transform.position = mapWallGameObject.transform.position + 8.66f * mapWallGameObject.transform.forward;
                         }
@@ -120,6 +122,10 @@ public class TrainingGround : MonoBehaviour
                             int chunkRotation = random.Next(6);
 
                             GameObject chunkGameObject = Instantiate<GameObject>(chunkModels[index].gameObject, new Vector3(newChunkUnityC[0], 0, newChunkUnityC[1]), Quaternion.Euler(0, chunkRotation * 60, 0));
+
+                            // Assign the object to the correct parent. (TrainingGround -> Map -> Tiles)
+                            chunkGameObject.transform.SetParent(transform.GetChild(2).GetChild(0).gameObject.transform, false);
+
                             // Update the value in the mapMatrix to keep track of chunks.
                             mapMatrix[newChunkBasisX, newChunkBasisY] = 1;
                         }
@@ -154,14 +160,12 @@ public class TrainingGround : MonoBehaviour
         GenerateMap();
 
         // Get the sea gameObject.
-        Transform sea = transform.GetChild(1).gameObject.transform;
+        Transform sea = transform.GetChild(2).GetChild(0).GetChild(0).GetChild(1).gameObject.transform;
         // Get the "sea" object's height and width, this then, defines the arena size, without the sand layer.
         arenaHeight = sea.lossyScale.y * 2f; // Up from the center is the actual returned height.
         arenaHeightHalf = sea.lossyScale.y;
-        arenaWidth = sea.lossyScale.x * 2f;
-        arenaWidthHalf = sea.lossyScale.x;
+        arenaWidthHalf = (float) CirconvolutionsCount * 17.32f;
         arenaCenter = sea.position;
-
     }
     // -------------------------------------------------------------------------------------------
 
@@ -285,7 +289,7 @@ public class TrainingGround : MonoBehaviour
             // Instantiate a copy of the target prefab object.
             GameObject targetObject = Instantiate<GameObject>(targetPrefab.gameObject);
             // Get the spawnpoint's coordinates.
-            targetObject.transform.position = GetSpawnCoordinates(arenaCenter, -1 * arenaHeightHalf * 0.20f, arenaHeightHalf - arenaHeightHalf * 0.20f, 0, 360, 0, arenaWidthHalf - arenaWidthHalf * 0.20f);
+            targetObject.transform.position = GetSpawnCoordinates(arenaCenter, -1 * arenaHeightHalf * 0.20f, arenaHeightHalf - arenaHeightHalf * 0.20f, 0, 360, arenaWidthHalf * 0.15f, arenaWidthHalf);
             // Save the last position.
             if (i == spawnQuantity - 1)
             {
